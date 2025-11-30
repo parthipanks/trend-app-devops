@@ -1,17 +1,22 @@
-# Use Node to serve the static dist folder
-FROM node:18-alpine
+# Build stage
+FROM node:18-alpine as build
 
-# Workdir inside container
 WORKDIR /app
 
-# Install a simple static file server
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+# Serve stage
+FROM node:18-alpine
+
+WORKDIR /app
 RUN npm install -g serve
+COPY --from=build /app/dist ./dist
 
-# Copy the pre-built static files from dist folder
-COPY dist ./dist
-
-# Expose port 3000 inside the container
 EXPOSE 3000
 
-# Serve the 'dist' folder on port 3000
 CMD ["serve", "-s", "dist", "-l", "3000"]
+
