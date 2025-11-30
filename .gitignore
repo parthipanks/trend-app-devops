@@ -1,0 +1,17 @@
+# Node / frontend stuff
+node_modules
+dist/*
+
+# Terraform
+.terraform/
+infra/terraform/.terraform/
+terraform.tfstate
+terraform.tfstate.*
+*.tfstate.backup
+
+# AWS / kube
+.aws/
+.kube/
+
+# Other
+*.log
